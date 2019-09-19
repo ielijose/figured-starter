@@ -1,3 +1,4 @@
+import NotFound from './views/404.vue';
 import Login from './views/auth/Login.vue';
 import Logout from './views/auth/Logout.vue';
 import Register from './views/auth/Register.vue';
@@ -26,6 +27,10 @@ const routes = [
         name: "logout",
         component: Logout,
         meta: { hideNavigation: true }
+    },
+    {
+        path: "*",
+        component: NotFound
     }
 ];
 
