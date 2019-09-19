@@ -2,14 +2,17 @@
   <div>
     <div class="row justify-content-center">
       <div class="col-md-12">
-        <!-- Posts -->
+        <posts></posts>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Posts from "../components/PostsComponent.vue";
+
 export default {
-  name: "home"
+  name: "home",
+  components: { Posts }
 };
 </Script>
