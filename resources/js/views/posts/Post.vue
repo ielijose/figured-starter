@@ -1,6 +1,14 @@
 <template>
   <div>
     <section class="jumbotron text-center" v-bind:style="dinamicBackground">
+      <div class="float-right admin-posts-actions" v-if="isAdmin">
+        <router-link
+          :to="{name: 'edit', params:{slug: post.slug}}"
+          class="btn btn-success mr-2"
+        >Edit</router-link>
+
+        <button class="btn btn-danger" v-on:click="deletePost">Delete</button>
+      </div>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-10">
@@ -39,7 +47,7 @@ export default {
     };
   },
   created() {
-    const loader = this.$loading.show();
+            const loader = this.$loading.show();
 
     this.$store.dispatch("retrievePostBySlug", this.slug).then(response => {
       this.post = response.data;
@@ -47,12 +55,31 @@ export default {
       loader.hide();
     });
   },
+  methods: {
+    deletePost() {
+      let message = {
+        title: "Delete Post",
+        body: "The post will be deleted. Are you sure?"
+      };
+      this.$dialog.confirm(message).then(dialog => {
+        const loader = this.$loading.show();
+
+        this.$store.dispatch("deletePost", this.post._id).then(response => {
+          loader.hide();
+          this.$router.push({ name: "home" });
+        });
+      });
+    }
+  },
   computed: {
     dinamicBackground: function() {
       return {
         backgroundImage: `url(/storage/images/${this.background})`,
         backgroundSize: "cover"
       };
+    },
+    isAdmin() {
+      return this.$store.getters.isAdmin;
     }
   }
 };

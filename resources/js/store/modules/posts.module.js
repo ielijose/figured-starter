@@ -20,6 +20,14 @@ const PostsModule = {
         retrievePostBySlug(state, post) {
             state.post = post;
         },
+        updatePost(state, post) {
+            const index = state.posts.findIndex(item => item._id == post._id);
+            state.posts.splice(index, 1, post);
+        },
+        deletePost(state, id) {
+            const index = state.posts.findIndex(item => item._id == id);
+            state.posts.splice(index, 1);
+        },
         clearPosts(state) {
             state.posts = [];
             state.page = 1;
@@ -40,7 +48,6 @@ const PostsModule = {
                     });
             });
         },
-
         retrievePosts(context) {
             const { page } = this.state.posts;
             const url = `/api/posts?page=${page}`;
@@ -60,7 +67,6 @@ const PostsModule = {
                     });
             });
         },
-
         retrievePostBySlug(context, slug) {
             const url = `/api/posts/${slug}`;
             return new Promise((resolve, reject) => {
@@ -76,7 +82,34 @@ const PostsModule = {
                     });
             });
         },
-
+        updatePost(context, post) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .put(`/api/posts/${post._id}`, post)
+                    .then(response => {
+                        context.commit("updatePost", response.data);
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        reject(error);
+                    });
+            });
+        },
+        deletePost(context, id) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .delete(`/api/posts/${id}`)
+                    .then(response => {
+                        context.commit("deletePost", id);
+                        resolve(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        reject(error);
+                    });
+            });
+        },
         clearPosts(context) {
             context.commit("clearPosts");
         }
