@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Loading from 'vue-loading-overlay';
 import VueRouter from 'vue-router';
 import Toasted from 'vue-toasted';
+import VuejsDialog from 'vuejs-dialog';
 
 import App from './components/AppComponent.vue';
 import routes from './routes';
@@ -20,6 +21,13 @@ Vue.use(Loading, {
 Vue.use(Toasted, {
     position: "bottom-right",
     duration: 3000
+});
+
+Vue.use(VuejsDialog, {
+    html: true,
+    okText: "Yes",
+    cancelText: "No",
+    animation: "fade"
 });
 
 const router = new VueRouter({
