@@ -11,6 +11,22 @@
       <li>
         <router-link :to="{name: 'home'}">Home</router-link>
       </li>
+      <li>
+        <a
+          href="#pageSubmenu"
+          data-toggle="collapse"
+          aria-expanded="false"
+          class="dropdown-toggle"
+        >Posts</a>
+        <ul class="collapse list-unstyled" id="pageSubmenu">
+          <li>
+            <router-link :to="{name: 'home'}">List</router-link>
+          </li>
+          <li v-if="isAdmin">
+            <router-link :to="{name: 'create'}">Create</router-link>
+          </li>
+        </ul>
+      </li>
     </ul>
   </nav>
 </template>
